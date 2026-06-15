@@ -1,0 +1,3 @@
+-keep public class com.chronyx.service.** { public *; }
+-keep class com.chronyx.service.IChronyxCapture { *; }
+-keep class com.chronyx.service.IChronyxBundleCallback { *; }

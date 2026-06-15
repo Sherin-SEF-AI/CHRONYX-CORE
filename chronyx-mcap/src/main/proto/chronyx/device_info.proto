@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package chronyx;
+
+option java_package = "com.chronyx.mcap.proto";
+option java_outer_classname = "DeviceInfoProto";
+option java_multiple_files = true;
+
+// Inertial sensor specs the Android platform exposes. Noise density / random walk are intentionally
+// absent (Android does not provide them); estimate offline via Allan variance from the raw IMU stream.
+message ImuIntrinsics {
+  string accel_name = 1;
+  string accel_vendor = 2;
+  float accel_resolution = 3;       // m/s^2 per LSB
+  float accel_max_range_mps2 = 4;
+  string gyro_name = 5;
+  string gyro_vendor = 6;
+  float gyro_resolution = 7;        // rad/s per LSB
+  float gyro_max_range_rad_s = 8;
+  uint32 target_rate_hz = 9;
+  double achieved_rate_hz = 10;
+}
+
+// One-shot self-describing session header on /device/info.
+message DeviceInfo {
+  string session_id = 1;
+  string device_manufacturer = 2;
+  string device_model = 3;
+  string os_version = 4;
+  uint32 sdk_int = 5;
+  string clock_base = 6;
+  string camera_id = 7;
+  float sensor_physical_width_mm = 8;
+  float sensor_physical_height_mm = 9;
+  uint32 active_array_width_px = 10;
+  uint32 active_array_height_px = 11;
+
+  // Intrinsics + provenance (most phones derive from focal length; flagged here).
+  string intrinsics_source = 20;    // "REPORTED" | "DERIVED_FROM_FOCAL_LENGTH"
+  uint32 calib_width = 21;
+  uint32 calib_height = 22;
+  repeated double k = 23;           // 3x3 row-major
+  repeated double distortion = 24;
+  string distortion_model = 25;
+
+  // Camera<->IMU extrinsic (often unavailable on consumer phones → extrinsic_available=false).
+  bool extrinsic_available = 30;
+  repeated float extrinsic_translation_m = 31;   // 3
+  repeated float extrinsic_rotation_quat = 32;    // 4 (x,y,z,w)
+  string extrinsic_reference = 33;                // "GYROSCOPE" | "PRIMARY_CAMERA" | "UNDEFINED"
+}

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package chronyx;
+
+option java_package = "com.chronyx.mcap.proto";
+option java_outer_classname = "AudioProto";
+option java_multiple_files = true;
+
+// A fixed-duration PCM buffer. t_first_sample_boot_ns is the BOOTTIME of pcm[0]; per-sample times are
+// t_first_sample_boot_ns + i * 1e9 / sample_rate. pcm is little-endian signed 16-bit interleaved.
+message AudioChunk {
+  uint64 t_first_sample_boot_ns = 1;
+  uint32 sample_rate = 2;
+  uint32 channel_count = 3;
+  uint32 frame_count = 4;
+  bytes pcm = 5;
+}

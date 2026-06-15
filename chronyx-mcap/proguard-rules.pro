@@ -1,0 +1,3 @@
+-keepattributes *Annotation*, Signature
+-keep class com.chronyx.mcap.proto.** { *; }
+-keep class foxglove.** { *; }

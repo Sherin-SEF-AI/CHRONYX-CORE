@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- Recordings live in the app's external files dir; share them read-only via the share sheet. -->
+    <external-files-path name="recordings" path="." />
+    <files-path name="internal" path="." />
+</paths>

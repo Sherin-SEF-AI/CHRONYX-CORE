@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package foxglove;
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "foxglove";
+option java_outer_classname = "LocationFixProto";
+option java_multiple_files = true;
+
+// Matches the Foxglove well-known LocationFix schema for native rendering of /gnss/fix.
+message LocationFix {
+  google.protobuf.Timestamp timestamp = 1;
+  string frame_id = 2;
+  double latitude = 3;
+  double longitude = 4;
+  double altitude = 5;
+  repeated double position_covariance = 6;
+
+  enum PositionCovarianceType {
+    UNKNOWN = 0;
+    APPROXIMATED = 1;
+    DIAGONAL_KNOWN = 2;
+    KNOWN = 3;
+  }
+  PositionCovarianceType position_covariance_type = 7;
+}

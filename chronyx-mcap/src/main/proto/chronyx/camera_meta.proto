@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package chronyx;
+
+option java_package = "com.chronyx.mcap.proto";
+option java_outer_classname = "CameraMetaProto";
+option java_multiple_files = true;
+
+// Per-frame camera metadata on the BOOTTIME axis. All *_boot_ns fields are BOOTTIME nanoseconds.
+message CameraMeta {
+  uint64 frame_index = 1;
+  uint64 t_sensor_boot_ns = 2;   // start-of-exposure (SENSOR_TIMESTAMP), normalized to BOOTTIME
+  uint64 t_mid_boot_ns = 3;      // mid-exposure reference (VIO convention)
+  uint64 exposure_ns = 4;        // SENSOR_EXPOSURE_TIME
+  uint64 rolling_shutter_skew_ns = 5; // SENSOR_ROLLING_SHUTTER_SKEW (per-row readout span)
+  string timestamp_source = 6;   // "REALTIME" or "UNKNOWN"
+  double clock_offset_confidence = 7; // estimator confidence for UNKNOWN source (1.0 for REALTIME)
+  int64 td_seed_ns = 8;          // coarse camera<->IMU offset seed; td_has_seed gates validity
+  bool td_has_seed = 9;
+  double td_confidence = 10;
+
+  // Photometric / focus state (controlled-camera): stable focus ⇒ stable intrinsics.
+  uint32 iso = 11;                    // SENSOR_SENSITIVITY
+  float focus_distance_diopters = 12; // LENS_FOCUS_DISTANCE (0 = infinity)
+  float focal_length_mm = 13;         // LENS_FOCAL_LENGTH
+  int32 af_state = 14;                // CONTROL_AF_STATE
+  int32 ae_state = 15;                // CONTROL_AE_STATE
+}

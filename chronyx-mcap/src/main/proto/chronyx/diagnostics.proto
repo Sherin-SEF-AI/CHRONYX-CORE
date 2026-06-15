@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package chronyx;
+
+option java_package = "com.chronyx.mcap.proto";
+option java_outer_classname = "DiagnosticsProto";
+option java_multiple_files = true;
+
+// Self-describing capture-health snapshot written to /diag/sync. Includes the boot->UTC map so an
+// independently-recorded device file can be co-registered offline.
+message SyncDiagnostics {
+  uint64 t_boot_ns = 1;
+  bool recording = 2;
+  bool sync_locked = 3;
+
+  // Camera
+  bool has_camera = 10;
+  string camera_timestamp_source = 11;
+  double camera_fps = 12;
+  uint64 camera_rolling_shutter_skew_ns = 13;
+  uint64 camera_exposure_ns = 14;
+  double camera_td_confidence = 15;
+  double camera_clock_offset_confidence = 16;
+  int32 camera_encoder_queue_depth = 17;
+  uint64 camera_dropped_frames = 18;
+
+  // IMU
+  bool has_imu = 20;
+  string imu_detected_base = 21;
+  double imu_achieved_rate_hz = 22;
+  double imu_target_rate_hz = 23;
+  uint64 imu_dropped_samples = 24;
+  int64 imu_applied_offset_ns = 25;
+
+  // GNSS
+  bool has_gnss = 30;
+  uint64 gnss_fix_age_ms = 31;
+  int32 gnss_satellites_in_fix = 32;
+  int32 gnss_satellites_visible = 80;
+  int32 gnss_satellites_used = 81;
+  double gnss_mean_cn0_dbhz = 82;
+  bool gnss_raw_supported = 33;
+  bool gnss_raw_active = 34;
+  int64 gnss_utc_residual_ns = 35;
+  uint64 gnss_dropped_epochs = 36;
+  // boot->UTC map params
+  bool boot_to_utc_valid = 37;
+  uint64 boot_to_utc_ref_ns = 38;
+  int64 boot_to_utc_offset_ns = 39;
+  double boot_to_utc_drift_ppm = 40;
+  int64 boot_to_utc_residual_mad_ns = 41;
+
+  // Audio
+  bool has_audio = 50;
+  uint32 audio_sample_rate = 51;
+  string audio_source = 52;
+  uint64 audio_anchor_age_ms = 53;
+  uint64 audio_dropped_buffers = 54;
+
+  // Engine
+  double engine_bundle_rate_hz = 60;
+  uint64 engine_dropped_bundles = 61;
+  uint64 engine_mcap_throughput_bps = 62;
+  uint64 engine_mcap_bytes_written = 63;
+
+  // Resources
+  int32 thermal_status = 70;
+  string active_degradation = 71;
+  float battery_temperature_c = 72;
+  uint64 free_storage_bytes = 73;
+}

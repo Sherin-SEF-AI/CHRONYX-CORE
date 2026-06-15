@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package foxglove;
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "foxglove";
+option java_outer_classname = "CompressedVideoProto";
+option java_multiple_files = true;
+
+// Field layout matches the Foxglove well-known schema so Foxglove Studio renders /camera/video
+// natively. `timestamp` is set to the frame's BOOTTIME mid-exposure instant so it coincides with the
+// MCAP message log_time (single axis, zero manual offset). `format` is "h265" or "h264".
+message CompressedVideo {
+  google.protobuf.Timestamp timestamp = 1;
+  string frame_id = 2;
+  bytes data = 3;
+  string format = 4;
+}

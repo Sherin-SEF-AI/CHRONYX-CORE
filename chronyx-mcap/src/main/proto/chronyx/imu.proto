@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package chronyx;
+
+option java_package = "com.chronyx.mcap.proto";
+option java_outer_classname = "ImuProto";
+option java_multiple_files = true;
+
+// One tri-axis inertial sample. Separate raw/calibrated/bias variants are carried via `channel` so a
+// VIO consumer can pick raw (no hidden vendor bias). accel m/s^2, gyro rad/s.
+message ImuSample {
+  uint64 t_boot_ns = 1;
+  string channel = 2; // ACCEL_RAW | ACCEL_CAL | ACCEL_BIAS | GYRO_RAW | GYRO_CAL | GYRO_BIAS
+  float x = 3;
+  float y = 4;
+  float z = 5;
+}

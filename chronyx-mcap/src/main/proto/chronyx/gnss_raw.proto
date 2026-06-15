@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package chronyx;
+
+option java_package = "com.chronyx.mcap.proto";
+option java_outer_classname = "GnssRawProto";
+option java_multiple_files = true;
+
+message GnssMeasurement {
+  int32 svid = 1;
+  string constellation = 2;
+  double cn0_dbhz = 3;
+  int64 received_sv_time_ns = 4;
+  double pseudorange_rate_mps = 5;
+  double accumulated_delta_range_m = 6;
+  bool adr_valid = 7;
+  bool adr_reset_detected = 8;
+  bool adr_cycle_slip_detected = 9;
+  float carrier_frequency_hz = 10;
+  int32 multipath_indicator = 11;
+}
+
+// A raw GNSS measurement epoch. gps_time_ns = time_ns - (full_bias_ns + bias_ns). t_boot_ns is the
+// epoch's BOOTTIME alignment key (paired elapsedRealtimeNanos()).
+message GnssRawEpoch {
+  uint64 t_boot_ns = 1;
+  int64 time_ns = 2;
+  int64 full_bias_ns = 3;
+  double bias_ns = 4;
+  double drift_ns_per_s = 5;
+  int64 gps_time_ns = 6;
+  int32 hardware_clock_discontinuity_count = 7;
+  repeated GnssMeasurement measurements = 8;
+}

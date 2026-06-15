@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package chronyx;
+
+option java_package = "com.chronyx.mcap.proto";
+option java_outer_classname = "MarkerProto";
+option java_multiple_files = true;
+
+// An operator-inserted event marker on the BOOTTIME axis (potholes, signs, incidents...). log_time of
+// the MCAP message equals t_boot_ns, so the marker lands on the shared timeline in Foxglove.
+message Marker {
+  uint64 t_boot_ns = 1;
+  uint64 index = 2;
+  string label = 3;
+}

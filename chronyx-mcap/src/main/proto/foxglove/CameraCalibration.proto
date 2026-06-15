@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package foxglove;
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "foxglove";
+option java_outer_classname = "CameraCalibrationProto";
+option java_multiple_files = true;
+
+// Matches the Foxglove well-known CameraCalibration schema so /camera/calibration renders natively.
+// K is the 3x3 intrinsic matrix (row-major, 9), D the distortion coefficients, R a 3x3 rectification
+// (identity for a monocular rig), P a 3x4 projection. timestamp = the BOOTTIME instant the
+// calibration applies from, so it shares the single axis.
+message CameraCalibration {
+  google.protobuf.Timestamp timestamp = 1;
+  string frame_id = 2;
+  uint32 width = 3;
+  uint32 height = 4;
+  string distortion_model = 5;
+  repeated double D = 6;
+  repeated double K = 7;
+  repeated double R = 8;
+  repeated double P = 9;
+}
