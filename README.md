@@ -11,6 +11,7 @@
 [![MCAP](https://img.shields.io/badge/format-MCAP-00B8D9.svg)](https://mcap.dev)
 [![Foxglove](https://img.shields.io/badge/opens%20in-Foxglove-FF6B00.svg)](https://foxglove.dev)
 [![Verified](https://img.shields.io/badge/verified%20on-Galaxy%20A17-2EE6A6.svg)]()
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
 </div>
 
@@ -181,4 +182,4 @@ This project does not pretend.
 
 ## License
 
-No license file is committed yet. Add one before public distribution. Apache 2.0 is a sensible default for a library like this.
+Released under the Apache License 2.0. See [LICENSE](LICENSE).
